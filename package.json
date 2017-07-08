@@ -23,7 +23,7 @@
   "homepage": "https://github.com/xlfpx/mergepdfs#readme",
   "preferGlobal": true,
   "bin": {
-    "mergepdfs": "node index.js"
+    "mergepdfs": "index.js"
   },
   "dependencies": {
     "pdfjs": "^2.0.0-alpha.3"
