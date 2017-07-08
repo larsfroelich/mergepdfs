@@ -25,6 +25,9 @@
   "bin": {
     "mergepdfs": "index.js"
   },
+  "engines":      {
+    "node":       ">=7.0.0"
+  },
   "dependencies": {
     "pdfjs": "^2.0.0-alpha.3"
   }

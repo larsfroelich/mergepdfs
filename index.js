@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 console.log("*** Merge-PDFs ***");
 console.log(" - loading dependencies");
 const pdf = require('pdfjs');
