@@ -21,8 +21,9 @@ console.log("  - creating output pdf");
 var doc = new pdfjs.Document({font: helveticaf});
 
 var totalCount = 0;
+var evenCount = 0;
 console.log("  - adding PDFs");
-readdir(cwd, ["!*.pdf"]).then( // get all pdf-files
+readdir(cwd, ["!*.pdf", "merged.pdf"]).then( // get all pdf-files except previous merges
     function(pdfs) {
         pdfs.forEach(function(pdf){
             console.log("  + adding \"" + pdf.replace(/^.*[\\\/]/, '') + "\"  (" + pdf + ")");
@@ -33,12 +34,16 @@ readdir(cwd, ["!*.pdf"]).then( // get all pdf-files
             if(program.even && (ext.pageCount % 2 === 1)){
                 doc.text(' ');
                 totalCount ++;
+                evenCount ++;
             }
         });
         console.log("  - writing output-file");
-        doc.pipe(fs.createWriteStream(cwd + '/mergedpdf.pdf'))
+        doc.pipe(fs.createWriteStream(cwd + '/merged.pdf'));
         doc.end().then(function () {
-            console.log("\n Finished writing PDF (" + totalCount + " pages total).\n Merged output is 'mergedpdf.pdf'");
+            console.log("\n Finished writing PDF (" + totalCount + " pages total).\n Merged output is 'merged.pdf'");
+            if(program.even){
+                console.log(" " + evenCount + " empty pages have been added to PDFs with odd numbers of pages.");
+            }
         });
     },
     function(error) {
