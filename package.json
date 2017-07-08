@@ -1,6 +1,6 @@
 {
   "name": "mergepdfs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Merge multiple pdf files into a single pdf",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
