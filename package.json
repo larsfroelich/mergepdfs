@@ -1,6 +1,6 @@
 {
   "name": "mergepdfs",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Merge multiple pdf files into a single pdf",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,8 +25,8 @@
   "bin": {
     "mergepdfs": "index.js"
   },
-  "engines":      {
-    "node":       ">=7.0.0"
+  "engines": {
+    "node": ">=7.0.0"
   },
   "dependencies": {
     "pdfjs": "^2.0.0-alpha.3"
