@@ -1,0 +1,28 @@
+{
+  "name": "mergepdfs",
+  "version": "0.0.1",
+  "description": "Merge multiple pdf files into a single pdf",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xlfpx/mergepdfs.git"
+  },
+  "keywords": [
+    "pdf",
+    "merge",
+    "generator",
+    "join"
+  ],
+  "author": "Lars Frölich",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xlfpx/mergepdfs/issues"
+  },
+  "homepage": "https://github.com/xlfpx/mergepdfs#readme",
+  "preferGlobal": true,
+  "bin": {
+    "mergepdfs": "index.js"
+  }
+}
