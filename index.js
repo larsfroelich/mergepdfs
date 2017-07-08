@@ -32,7 +32,7 @@ readdir(cwd, ["!*.pdf", "merged.pdf"]).then( // get all pdf-files except previou
             doc.addPagesOf(ext);
             totalCount += ext.pageCount;
             if(program.even && (ext.pageCount % 2 === 1)){
-                doc.text(' ');
+                doc.text(' . '); // some printers don't "skip" this page if it's entirely empty.
                 totalCount ++;
                 evenCount ++;
             }
