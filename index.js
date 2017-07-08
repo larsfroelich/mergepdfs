@@ -2,10 +2,15 @@
 console.log("*** Merge-PDFs ***");
 const cwd = process.cwd();
 
+// configure program-parameters
+var program = require('commander')
+    .option('-e, --even', 'Add empty pages to PDFs that end on odd pages (useful for manual duplex printing)')
+    .parse(process.argv);
+
 console.log("  - loading dependencies");
 const pdfjs = require('pdfjs');
 const fs = require("fs");
-const readdir = require("recursive-readdir")
+const readdir = require("recursive-readdir");
 
 console.log("  - loading font");
 var helvetica = fs.readFileSync(__dirname + '/Helvetica.json');
@@ -15,6 +20,7 @@ var helveticaf = new pdfjs.Font(helvetica);
 console.log("  - creating output pdf");
 var doc = new pdfjs.Document({font: helveticaf});
 
+var totalCount = 0;
 console.log("  - adding PDFs");
 readdir(cwd, ["!*.pdf"]).then( // get all pdf-files
     function(pdfs) {
@@ -23,11 +29,16 @@ readdir(cwd, ["!*.pdf"]).then( // get all pdf-files
             var file = fs.readFileSync(pdf);
             var ext =  new pdfjs.ExternalDocument(file);
             doc.addPagesOf(ext);
+            totalCount += ext.pageCount;
+            if(program.even && (ext.pageCount % 2 === 1)){
+                doc.text(' ');
+                totalCount ++;
+            }
         });
         console.log("  - writing output-file");
         doc.pipe(fs.createWriteStream(cwd + '/mergedpdf.pdf'))
         doc.end().then(function () {
-            console.log("\n Finished writing PDF! Merged output is 'mergedpdf.pdf'");
+            console.log("\n Finished writing PDF (" + totalCount + " pages total).\n Merged output is 'mergedpdf.pdf'");
         });
     },
     function(error) {
