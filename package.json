@@ -24,5 +24,8 @@
   "preferGlobal": true,
   "bin": {
     "mergepdfs": "index.js"
+  },
+  "dependencies": {
+    "pdfjs": "^2.0.0-alpha.3"
   }
 }
