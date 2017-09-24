@@ -1,2 +1,2 @@
 # mergepdfs
-Merge multiple pdf files into a single pdf
+Merge multiple pdf files into a single file

@@ -50,13 +50,3 @@ readdir(cwd, ["!*.pdf", "merged.pdf"]).then( // get all pdf-files except previou
         console.error("Unable to search for pdf-files ", error);
     }
 );
-/*var pdf1 = fs.readFileSync(cwd + '/pdf1.pdf');
-var pdf2 = fs.readFileSync(cwd + '/pdf2.pdf');
-var ext1 =  new pdf.ExternalDocument(pdf1);
-var ext2 =  new pdf.ExternalDocument(pdf2);
-
-console.log("  - creating output pdf");
-var doc = new pdf.Document({font: helveticaf});
-doc.addPagesOf(ext1);
-doc.addPagesOf(ext2);
-*/
