@@ -31,6 +31,7 @@
   "dependencies": {
     "commander": "^2.11.0",
     "pdfjs": "^2.0.0-alpha.3",
-    "recursive-readdir": "^2.2.1"
+    "recursive-readdir": "^2.2.1",
+    "update-notifier": "^2.3.0"
   }
 }
