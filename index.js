@@ -6,7 +6,7 @@ if(updateNotifier.update){
     updateNotifier.notify({defer:false}); // display plz-update notification message
     setTimeout(main, 5000); // start after 5 seconds
 }else{
-    main(); // up to data - start right away
+    main(); // up to date - start right away
 }
 
 function main(){
