@@ -26,12 +26,12 @@
     "mergepdfs": "index.js"
   },
   "engines": {
-    "node": ">=7.0.0"
+    "node": ">=18"
   },
   "dependencies": {
-    "commander": "^2.11.0",
-    "pdfjs": "^2.0.0-alpha.3",
-    "recursive-readdir": "^2.2.1",
-    "update-notifier": "^6.0.2"
+    "commander": "^14.0.0",
+    "pdfjs": "^2.5.3",
+    "recursive-readdir": "^2.2.3",
+    "update-notifier": "^7.3.1"
   }
 }
