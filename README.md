@@ -1,6 +1,8 @@
 # mergepdfs
 Merge multiple pdf files into a single file.
 
+Requires Node.js 18 or later.
+
 ## Installation
 
 ```bash
@@ -27,4 +29,12 @@ Example:
 
 ```bash
 mergepdfs --even
+```
+
+## Testing
+
+Run the following command to execute the test suite:
+
+```bash
+npm test
 ```
