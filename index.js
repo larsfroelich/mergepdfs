@@ -2,6 +2,23 @@
 
 const pkg = require('./package.json');
 const updateNotifier = require('update-notifier').default({ pkg });
+const fs = require('fs');
+const path = require('path');
+
+async function walkRecursive(dir) {
+    const entries = await fs.promises.readdir(dir);
+    let files = [];
+    for (const entry of entries) {
+        const fullPath = path.join(dir, entry);
+        const stat = await fs.promises.stat(fullPath);
+        if (stat.isDirectory()) {
+            files = files.concat(await walkRecursive(fullPath));
+        } else {
+            files.push(fullPath);
+        }
+    }
+    return files;
+}
 
 if (updateNotifier.update) {
     updateNotifier.notify({ defer: false }); // display plz-update notification message
@@ -25,9 +42,6 @@ async function main() {
 
     console.log('  - loading dependencies');
     const pdfjs = require('pdfjs');
-    const fs = require('fs');
-    const path = require('path');
-    const readdir = require('recursive-readdir');
 
     console.log('  - loading font');
     const helveticaf = require('pdfjs/font/Helvetica');
@@ -39,7 +53,7 @@ async function main() {
     let evenCount = 0;
     console.log('  - adding PDFs');
     try {
-        const pdfs = await readdir(cwd, ['!*.pdf', 'merged.pdf']); // get all pdf-files except previous merges
+        const pdfs = (await walkRecursive(cwd)).filter(f => path.extname(f).toLowerCase() === '.pdf' && path.basename(f) !== 'merged.pdf');
         for (const pdf of pdfs) {
             console.log(`  + adding "${path.basename(pdf)}"  (${pdf})`);
             const file = await fs.promises.readFile(pdf);
