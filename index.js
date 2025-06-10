@@ -26,6 +26,7 @@ async function main() {
     console.log('  - loading dependencies');
     const pdfjs = require('pdfjs');
     const fs = require('fs');
+    const path = require('path');
     const readdir = require('recursive-readdir');
 
     console.log('  - loading font');
@@ -39,9 +40,9 @@ async function main() {
     console.log('  - adding PDFs');
     try {
         const pdfs = await readdir(cwd, ['!*.pdf', 'merged.pdf']); // get all pdf-files except previous merges
-        pdfs.forEach(pdf => {
-            console.log(`  + adding "${pdf.replace(/^.*[\\/]/, '')}"  (${pdf})`);
-            const file = fs.readFileSync(pdf);
+        for (const pdf of pdfs) {
+            console.log(`  + adding "${path.basename(pdf)}"  (${pdf})`);
+            const file = await fs.promises.readFile(pdf);
             const ext = new pdfjs.ExternalDocument(file);
             doc.addPagesOf(ext);
             totalCount += ext.pageCount;
@@ -50,7 +51,7 @@ async function main() {
                 totalCount++;
                 evenCount++;
             }
-        });
+        }
         console.log('  - writing output-file');
         doc.pipe(fs.createWriteStream(`${cwd}/merged.pdf`));
         await doc.end();
