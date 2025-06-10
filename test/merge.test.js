@@ -61,3 +61,20 @@ test('adds blank pages with --even', async () => {
   const ext = new pdfjs.ExternalDocument(merged);
   assert.equal(ext.pageCount, 4);
 });
+
+test('respects --output option', async () => {
+  const tmp = await fsp.mkdtemp(path.join(os.tmpdir(), 'mergepdfs-output-'));
+  const f1 = path.join(tmp, 'one.pdf');
+  const sub = path.join(tmp, 'sub');
+  await fsp.mkdir(sub);
+  const f2 = path.join(sub, 'two.pdf');
+  await createPdf(f1, 1);
+  await createPdf(f2, 1);
+
+  const outFile = path.join(tmp, 'combined.pdf');
+  await runCli(tmp, ['--output', outFile]);
+
+  const merged = fs.readFileSync(outFile);
+  const ext = new pdfjs.ExternalDocument(merged);
+  assert.equal(ext.pageCount, 2);
+});
