@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const pkg = require('./package.json');
-const updateNotifier = require('update-notifier')({ pkg });
+const updateNotifier = require('update-notifier').default({ pkg });
 
 if (updateNotifier.update) {
     updateNotifier.notify({ defer: false }); // display plz-update notification message
@@ -18,7 +18,8 @@ async function main() {
     const cwd = process.cwd();
 
     // configure program-parameters
-    const program = require('commander')
+    const { program } = require('commander');
+    program
         .option('-e, --even', 'Add empty pages to PDFs that end on odd pages (useful for manual duplex printing)')
         .parse(process.argv);
 
@@ -28,8 +29,7 @@ async function main() {
     const readdir = require('recursive-readdir');
 
     console.log('  - loading font');
-    const helvetica = JSON.parse(fs.readFileSync(`${__dirname}/Helvetica.json`));
-    const helveticaf = new pdfjs.Font(helvetica);
+    const helveticaf = require('pdfjs/font/Helvetica');
 
     console.log('  - creating output pdf');
     const doc = new pdfjs.Document({ font: helveticaf });
@@ -45,7 +45,7 @@ async function main() {
             const ext = new pdfjs.ExternalDocument(file);
             doc.addPagesOf(ext);
             totalCount += ext.pageCount;
-            if (program.even && (ext.pageCount % 2 === 1)) {
+            if (program.opts().even && (ext.pageCount % 2 === 1)) {
                 doc.text(' . '); // some printers don't "skip" this page if it's entirely empty.
                 totalCount++;
                 evenCount++;
@@ -55,7 +55,7 @@ async function main() {
         doc.pipe(fs.createWriteStream(`${cwd}/merged.pdf`));
         await doc.end();
         console.log(`\n Finished writing PDF (${totalCount} pages total).\n Merged output is 'merged.pdf'`);
-        if (program.even) {
+        if (program.opts().even) {
             console.log(` ${evenCount} empty pages have been added to PDFs with odd numbers of pages.`);
         }
     } catch (error) {
