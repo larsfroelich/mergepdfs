@@ -38,7 +38,10 @@ async function main() {
     const { program } = require('commander');
     program
         .option('-e, --even', 'Add empty pages to PDFs that end on odd pages (useful for manual duplex printing)')
+        .option('-o, --output <file>', 'Output PDF file name', 'merged.pdf')
         .parse(process.argv);
+
+    const outputFile = path.resolve(cwd, program.opts().output);
 
     console.log('  - loading dependencies');
     const pdfjs = require('pdfjs');
@@ -53,7 +56,9 @@ async function main() {
     let evenCount = 0;
     console.log('  - adding PDFs');
     try {
-        const pdfs = (await walkRecursive(cwd)).filter(f => path.extname(f).toLowerCase() === '.pdf' && path.basename(f) !== 'merged.pdf');
+        const pdfs = (await walkRecursive(cwd)).filter(f => {
+            return path.extname(f).toLowerCase() === '.pdf' && path.resolve(f) !== outputFile;
+        });
         for (const pdf of pdfs) {
             console.log(`  + adding "${path.basename(pdf)}"  (${pdf})`);
             const file = await fs.promises.readFile(pdf);
@@ -67,9 +72,9 @@ async function main() {
             }
         }
         console.log('  - writing output-file');
-        doc.pipe(fs.createWriteStream(`${cwd}/merged.pdf`));
+        doc.pipe(fs.createWriteStream(outputFile));
         await doc.end();
-        console.log(`\n Finished writing PDF (${totalCount} pages total).\n Merged output is 'merged.pdf'`);
+        console.log(`\n Finished writing PDF (${totalCount} pages total).\n Merged output is '${path.basename(outputFile)}'`);
         if (program.opts().even) {
             console.log(` ${evenCount} empty pages have been added to PDFs with odd numbers of pages.`);
         }

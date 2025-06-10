@@ -24,11 +24,13 @@ All PDF files found in the current directory and its subdirectories will be merg
 ### Options
 
 - `-e, --even`  Add a blank page to PDFs that end on an odd number of pages. Useful for manual duplex printing.
+- `-o, --output <file>`  Specify the output PDF name. Defaults to `merged.pdf`.
 
 Example:
 
 ```bash
 mergepdfs --even
+mergepdfs --output combined.pdf
 ```
 
 ## Testing
