@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "description": "Merge multiple pdf files into a single pdf",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "repository": {
     "type": "git",
